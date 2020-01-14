@@ -13,13 +13,18 @@ public class mesh_generator : MonoBehaviour
     public int xSize = 20;
     public int zSize = 20;
 
+    public Gradient grad;
 
+    Color[] colors;
+
+    private float minHeight = float.MaxValue, maxHeight = float.MinValue;
 
     // Start is called before the first frame update
     void Start()
     {
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
+        GetComponent<MeshCollider>().sharedMesh = mesh;
 
         create_shape();
         update_mesh();
@@ -39,7 +44,15 @@ public class mesh_generator : MonoBehaviour
         {
             for(int x = 0; x <= xSize; x++)
             {
-                float y = Mathf.PerlinNoise(x * 0.5f, z * 0.5f) *2f - Mathf.PerlinNoise(x * 0.1f, z * 0.1f) * 10f + Mathf.PerlinNoise(x * 0.001f, z * 0.001f) * 100f - 50;
+                float y = -Mathf.PerlinNoise(x * 0.5f, z * 0.5f) + Mathf.PerlinNoise(x * 0.1f, z * 0.1f) * Mathf.PerlinNoise(x * 0.1f, z * 0.1f) * 10; //+ Mathf.PerlinNoise(x * 0.001f, z * 0.001f) * 100f - 50;
+                if (y > maxHeight)
+                {
+                    maxHeight = y;
+                }
+                if(y < minHeight)
+                {
+                    minHeight = y;
+                }
                 vertices[i] = new Vector3(x, y, z);
                 i++;
             }
@@ -72,6 +85,18 @@ public class mesh_generator : MonoBehaviour
         }
 
 
+        colors = new Color[vertices.Length];
+
+        for (int i = 0, z = 0; z <= zSize; z++)
+        {
+            for (int x = 0; x < xSize; x++, i++)
+            {
+                colors[i] = grad.Evaluate(Mathf.InverseLerp(minHeight, maxHeight, vertices[i].y));
+                
+
+            }
+        }
+
 
     }
 
@@ -81,8 +106,9 @@ public class mesh_generator : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.RecalculateNormals();
+        mesh.colors = colors;
     }
-
+    
     /*private void OnDrawGizmos()
     {
         if(vertices == null)
