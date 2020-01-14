@@ -158,18 +158,18 @@ MonoBehaviour:
   grad:
     serializedVersion: 2
     key0: {r: 0.08085619, g: 0.5027024, b: 0.745283, a: 1}
-    key1: {r: 0.5943396, g: 0.28785905, b: 0.09812209, a: 1}
-    key2: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 0}
-    key3: {r: 1, g: 1, b: 1, a: 0}
-    key4: {r: 1, g: 1, b: 1, a: 0}
+    key1: {r: 0.366901, g: 0.75846773, b: 0.9150943, a: 1}
+    key2: {r: 0.09878961, g: 0.5660378, b: 0.2240193, a: 0}
+    key3: {r: 0.5943396, g: 0.28785905, b: 0.09812209, a: 0}
+    key4: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 0}
     key5: {r: 1, g: 1, b: 1, a: 0}
     key6: {r: 1, g: 1, b: 1, a: 0}
     key7: {r: 1, g: 1, b: 1, a: 0}
     ctime0: 0
-    ctime1: 39321
-    ctime2: 54934
-    ctime3: 65535
-    ctime4: 65535
+    ctime1: 3470
+    ctime2: 4241
+    ctime3: 39321
+    ctime4: 43754
     ctime5: 65535
     ctime6: 65535
     ctime7: 65535
@@ -182,7 +182,7 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 0
-    m_NumColorKeys: 4
+    m_NumColorKeys: 6
     m_NumAlphaKeys: 2
 --- !u!23 &70816243
 MeshRenderer:
@@ -440,7 +440,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: -0.000011949013}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -560,7 +560,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1339021661
 Rigidbody:
   m_ObjectHideFlags: 0
