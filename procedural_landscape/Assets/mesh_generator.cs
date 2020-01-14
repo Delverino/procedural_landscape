@@ -18,6 +18,8 @@ public class mesh_generator : MonoBehaviour
     Color[] colors;
 
     private float minHeight = float.MaxValue, maxHeight = float.MinValue;
+    private int seed;
+    private int type;
 
     // Start is called before the first frame update
     void Start()
@@ -33,18 +35,40 @@ public class mesh_generator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            create_shape();
+            update_mesh();
+        }
+    }
+
+    public float myNoise(float x, float y)
+    {
+        return Mathf.PerlinNoise(x + seed, y + seed);
     }
 
     void create_shape()
     {
+        type = Random.Range(0, 3);
+        seed = Random.Range(0, 100);
         vertices = new Vector3[(xSize + 1) * (zSize + 1)];
         
         for(int i = 0, z = 0; z <= zSize; z++)
         {
             for(int x = 0; x <= xSize; x++)
             {
-                float y = -Mathf.PerlinNoise(x * 0.5f, z * 0.5f) + Mathf.PerlinNoise(x * 0.1f, z * 0.1f) * Mathf.PerlinNoise(x * 0.1f, z * 0.1f) * 10; //+ Mathf.PerlinNoise(x * 0.001f, z * 0.001f) * 100f - 50;
+                float y = -myNoise(x * 0.5f, z * 0.5f) +myNoise(x * 0.1f, z * 0.1f) * myNoise(x * 0.1f, z * 0.1f) * 10; //+ Mathf.PerlinNoise(x * 0.001f, z * 0.001f) * 100f - 50;
+                if (type == 0)
+                {
+                    y = y * x / xSize;
+                }
+                else if (type == 1)
+                {
+                    y = y * Mathf.Sin((float)x * 2/xSize + z * 2/zSize);
+                } else if(type == 2)
+                {
+                    y = y * 0.5f;
+                }
                 if (y > maxHeight)
                 {
                     maxHeight = y;
