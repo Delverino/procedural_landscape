@@ -21,6 +21,8 @@ public class mesh_generator : MonoBehaviour
     private int seed;
     private int type;
 
+    private float randMult;
+    private int type2;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,8 +51,15 @@ public class mesh_generator : MonoBehaviour
 
     void create_shape()
     {
-        type = Random.Range(0, 3);
+        minHeight = float.MaxValue;
+        maxHeight = float.MinValue;
+        randMult = Random.Range(0.6f, 2f);
+        type = Random.Range(0, 6);
         seed = Random.Range(0, 100);
+        type2 = Random.Range(0, 4);
+        float randomX = Random.Range(0, (float)xSize);
+        float randomZ = Random.Range(0, (float)zSize);
+
         vertices = new Vector3[(xSize + 1) * (zSize + 1)];
         
         for(int i = 0, z = 0; z <= zSize; z++)
@@ -60,7 +69,23 @@ public class mesh_generator : MonoBehaviour
                 float y = -myNoise(x * 0.5f, z * 0.5f) +myNoise(x * 0.1f, z * 0.1f) * myNoise(x * 0.1f, z * 0.1f) * 10; //+ Mathf.PerlinNoise(x * 0.001f, z * 0.001f) * 100f - 50;
                 if (type == 0)
                 {
-                    y = y * x / xSize;
+                    switch (type2)
+                    {
+                        case 0:
+                            y = y * x / xSize;
+                            break;
+
+                        case 1:
+                            y = y * (1 - ((float)x / xSize));
+                            break;
+                        case 2:
+                            y = y * ((float)z / zSize);
+                            break;
+                        case 3:
+                            y = y * (1 - ((float)z / zSize));
+                            break;
+
+                    }
                 }
                 else if (type == 1)
                 {
@@ -68,7 +93,18 @@ public class mesh_generator : MonoBehaviour
                 } else if(type == 2)
                 {
                     y = y * 0.5f;
+                } else if (type == 3)
+                {
+                    y = y * randMult;
+                } else if(type == 4)
+                {
+                    float dist = Mathf.Pow(x - randomX, 2) + Mathf.Pow(z - randomZ, 2);
+                    y = y + 4 - ( (dist / xSize))/4f;
+                } else {
+                    float dist = Mathf.Sqrt( Mathf.Pow(x - randomX, 2) + Mathf.Pow(z - randomZ, 2));
+                    y = y * (2f * (dist / xSize));
                 }
+
                 if (y > maxHeight)
                 {
                     maxHeight = y;
